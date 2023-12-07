@@ -1,4 +1,4 @@
-package com.example.runningloggui;
+package com.aiden.runningloggui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,6 +32,20 @@ public class ConfigStorageSettingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Add the two radio buttons to one ToggleGroup
+        ToggleGroup toggleGroup = new ToggleGroup();
+        radioSQL.setToggleGroup(toggleGroup);
+        radioLocalSaveFile.setToggleGroup(toggleGroup);
 
+        // Add listener to the ToggleGroup
+        toggleGroup.selectedToggleProperty().addListener(e -> {
+            RadioButton selectedButton = (RadioButton) toggleGroup.getSelectedToggle();
+            if (selectedButton.getText().equals("Local Save File")) {
+                System.out.println("LSF selected");
+            }
+            else if (selectedButton.getText().equals("SQL Server")) {
+                System.out.println("SQL selected");
+            }
+        });
     }
 }

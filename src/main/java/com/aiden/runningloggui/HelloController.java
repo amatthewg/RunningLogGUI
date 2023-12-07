@@ -1,4 +1,4 @@
-package com.example.runningloggui;
+package com.aiden.runningloggui;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

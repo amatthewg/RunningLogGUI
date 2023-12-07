@@ -1,4 +1,4 @@
-package com.example.runningloggui;
+package com.aiden.runningloggui;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -25,6 +25,7 @@ public class RunningLogGUI extends Application {
         Scene scene = new Scene(loader.load(resourceURL));
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
     private static void loadFxmlFiles() {
 
