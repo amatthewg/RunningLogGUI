@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.runningloggui.ConfigStorageSettingsController">
+   <children>
+      <Label layoutX="23.0" layoutY="6.0" style="-fx-font-weight: bold;" text="Configure Storage Settings">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="radioLocalSaveFile" layoutX="23.0" layoutY="79.0" mnemonicParsing="false" selected="true" text="Local Save File" />
+      <RadioButton fx:id="radioSQL" layoutX="23.0" layoutY="108.0" mnemonicParsing="false" text="SQL Server" />
+      <Label layoutX="150.0" layoutY="79.0" text="Save file location:" />
+      <Label fx:id="saveFileLocationLabel" layoutX="249.0" layoutY="79.0" text="SAVE_FILE_LOCATION" />
+      <Button fx:id="changeLSFBtn" layoutX="534.0" layoutY="75.0" mnemonicParsing="false" text="Change" />
+      <TextField fx:id="sqlServerAddrField" editable="false" layoutX="23.0" layoutY="163.0" />
+      <Label layoutX="23.0" layoutY="146.0" text="SQL Server Address" />
+      <TextField fx:id="sqlServerUserField" editable="false" layoutX="23.0" layoutY="210.0" />
+      <Label layoutX="23.0" layoutY="191.0" text="SQL Server Username" />
+      <PasswordField fx:id="sqlServerPassField" editable="false" layoutX="23.0" layoutY="260.0" />
+      <Label layoutX="24.0" layoutY="243.0" text="SQL Server Password" />
+      <Button fx:id="sqlServerConnectBtn" disable="true" layoutX="23.0" layoutY="294.0" mnemonicParsing="false" text="Connect" />
+      <Button disable="true" layoutX="23.0" layoutY="332.0" mnemonicParsing="false" text="Configure SQL Settings..." />
+      <Label fx:id="sqlConnStatusLabel" layoutX="107.0" layoutY="298.0" text="SQL_CONNECTION_STATUS" />
+      <Label layoutX="23.0" layoutY="36.0" style="-fx-font-style: italic;" text="Choose how you want to store the runner's names and speeds/paces. Local file storage will still be used for" />
+      <Label layoutX="24.0" layoutY="53.0" style="-fx-font-style: italic;" text="program settings." />
+   </children>
+</Pane>
