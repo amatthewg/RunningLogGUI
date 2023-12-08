@@ -7,4 +7,6 @@ module com.example.runningloggui {
 
     opens com.aiden.runningloggui to javafx.fxml;
     exports com.aiden.runningloggui;
+    exports com.aiden.runningloggui.utility;
+    opens com.aiden.runningloggui.utility to javafx.fxml;
 }

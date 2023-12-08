@@ -1,16 +1,12 @@
 package com.aiden.runningloggui;
 
+import com.aiden.runningloggui.utility.AppConstants;
+import com.aiden.runningloggui.utility.PreferencesManager;
+import com.aiden.runningloggui.utility.SceneManager;
 import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class RunningLogGUI extends Application {
 
@@ -20,12 +16,29 @@ public class RunningLogGUI extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        URL resourceURL = getClass().getResource("configure-storage-settings.fxml");
-        Scene scene = new Scene(loader.load(resourceURL));
-        primaryStage.setScene(scene);
-        primaryStage.show();
 
+
+        // Set primary stage of SceneManager
+        SceneManager.setPrimaryStage(primaryStage);
+        // Load scenes using SceneManager
+        SceneManager.loadScene("configure-storage-settings.fxml", AppConstants.CONFIG_STORAGE_SETTINGS_SCENE);
+
+        // Get scene last opened by user
+        String lastOpenedScene = PreferencesManager.get(AppConstants.LAST_SCENE_OPENED_KEY);
+        if(lastOpenedScene == null) {
+            // Application has not been launched before, no last opened scene
+            // TODO show opening scene
+        } else {
+            SceneManager.setScene(lastOpenedScene);
+        }
+        // Show primary stage
+        SceneManager.showPrimaryStage();
+
+    }
+    @Override
+    public void stop() {
+        // Flush preferences to persistent store
+        PreferencesManager.flush();
     }
     private static void loadFxmlFiles() {
 

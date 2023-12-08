@@ -27,9 +27,10 @@
       <PasswordField fx:id="sqlServerPassField" editable="false" layoutX="23.0" layoutY="260.0" />
       <Label layoutX="24.0" layoutY="243.0" text="SQL Server Password" />
       <Button fx:id="sqlServerConnectBtn" disable="true" layoutX="23.0" layoutY="294.0" mnemonicParsing="false" text="Connect" />
-      <Button disable="true" layoutX="23.0" layoutY="332.0" mnemonicParsing="false" text="Configure SQL Settings..." />
+      <Button disable="true" layoutX="24.0" layoutY="326.0" mnemonicParsing="false" text="Configure SQL Settings..." />
       <Label fx:id="sqlConnStatusLabel" layoutX="107.0" layoutY="298.0" text="SQL_CONNECTION_STATUS" />
       <Label layoutX="23.0" layoutY="36.0" style="-fx-font-style: italic;" text="Choose how you want to store the runner's names and speeds/paces. Local file storage will still be used for" />
       <Label layoutX="24.0" layoutY="53.0" style="-fx-font-style: italic;" text="program settings." />
+      <Button fx:id="goBackBtn" layoutX="23.0" layoutY="361.0" mnemonicParsing="false" text="Back" />
    </children>
 </Pane>
