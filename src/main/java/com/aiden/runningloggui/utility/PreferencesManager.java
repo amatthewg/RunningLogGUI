@@ -7,6 +7,7 @@ import java.util.prefs.Preferences;
 
 public class PreferencesManager {
     private final static Preferences PREFERENCES = Preferences.userNodeForPackage(PreferencesManager.class);
+    private static boolean triedFlushing = false;
 
     public static String get(String key) {
         return PREFERENCES.get(key, null);
@@ -22,6 +23,11 @@ public class PreferencesManager {
             alert.setTitle("Failed to save application state");
             alert.setContentText("Failed to flush user preferences object in preferences manager.");
             alert.showAndWait();
+            if(!triedFlushing) {
+                // Attempt to flush one more time
+                triedFlushing = true;
+                flush();
+            }
         }
 
     }

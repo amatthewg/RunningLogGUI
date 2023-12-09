@@ -27,7 +27,7 @@ public class RunningLogGUI extends Application {
         String lastOpenedScene = PreferencesManager.get(AppConstants.LAST_SCENE_OPENED_KEY);
         if(lastOpenedScene == null) {
             // Application has not been launched before, no last opened scene
-            // TODO show opening scene
+            SceneManager.setScene(AppConstants.CONFIG_STORAGE_SETTINGS_SCENE);
         } else {
             SceneManager.setScene(lastOpenedScene);
         }
@@ -39,6 +39,7 @@ public class RunningLogGUI extends Application {
     public void stop() {
         // Flush preferences to persistent store
         PreferencesManager.flush();
+        // TODO check if file/db operations are running
     }
     private static void loadFxmlFiles() {
 

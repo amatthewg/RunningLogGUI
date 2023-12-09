@@ -2,6 +2,7 @@ package com.aiden.runningloggui;
 
 import com.aiden.runningloggui.utility.AppConstants;
 import com.aiden.runningloggui.utility.PreferencesManager;
+import com.aiden.runningloggui.utility.SaveFileManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -64,7 +65,8 @@ public class ConfigStorageSettingsController implements Initializable {
 
         // Add action to Change LSF Button
         changeLSFBtn.setOnAction(e -> {
-            // TODO SaveFileManager prompt user for save file
+            SaveFileManager.promptUserForFile();
+
         });
 
         // Logic for Save File Location label
