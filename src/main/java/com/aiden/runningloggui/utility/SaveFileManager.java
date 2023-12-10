@@ -13,9 +13,8 @@ import java.util.prefs.Preferences;
 
 public class SaveFileManager {
 
-
-
     private static File saveFile;
+    private static boolean fileOperationOngoing = false;
 
     public static void startup() {
         // Check Preferences for existence of a save file
@@ -23,6 +22,12 @@ public class SaveFileManager {
         if(saveFileLocation != null) {
             saveFile = new File(saveFileLocation);
         }
+    }
+    public static void setFileOperationOngoing(boolean state) {
+        fileOperationOngoing = state;
+    }
+    public static boolean isFileOperationsOngoing() {
+        return fileOperationOngoing;
     }
 
     public static void promptUserForFile() {
@@ -57,6 +62,8 @@ public class SaveFileManager {
 
     // Method to add runner to CSV save file asynchronously
     public static CompletableFuture<Void> writeToSaveFileAsync(List<RunningEntry> runningEntries) {
+        // Before starting async operations, indicate file operations ongoing
+        fileOperationOngoing = true;
         return CompletableFuture.runAsync(() -> {
             try(BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile.getAbsolutePath()))) {
                 for(RunningEntry entry : runningEntries) {

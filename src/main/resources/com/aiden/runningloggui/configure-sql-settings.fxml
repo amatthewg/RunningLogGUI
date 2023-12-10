@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aiden.runningloggui.ConfigSqlSettingsController">
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Configure SQL Settings">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="44.0" style="-fx-font-style: italic;" text="Choose how the program should use the SQL server to store data." />
+      <RadioButton fx:id="radioNewDatabase" layoutX="14.0" layoutY="78.0" mnemonicParsing="false" text="Program should create a new SQL database to use" />
+      <RadioButton fx:id="radioExistingDatabase" layoutX="14.0" layoutY="200.0" mnemonicParsing="false" text="Use existing database" />
+      <TextField fx:id="newDbNameField" layoutX="14.0" layoutY="119.0" />
+      <Label fx:id="newDbNameLabel" layoutX="14.0" layoutY="102.0" text="Enter preferred database name" />
+      <Button fx:id="newDbUpdateBtn" layoutX="183.0" layoutY="119.0" mnemonicParsing="false" text="Update" />
+      <TextField fx:id="existingDatabaseNameField" layoutX="14.0" layoutY="248.0" />
+      <Label fx:id="existingDatabaseNameLabel" layoutX="14.0" layoutY="231.0" text="Enter name of database (case sensitive)" />
+      <Button fx:id="existingDatabaseUpdateBtn" layoutX="185.0" layoutY="248.0" mnemonicParsing="false" text="Update" />
+      <Button fx:id="goBackBtn" layoutX="14.0" layoutY="361.0" mnemonicParsing="false" text="Back" />
+   </children>
+</Pane>

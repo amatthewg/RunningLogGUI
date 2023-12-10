@@ -3,6 +3,7 @@ package com.aiden.runningloggui;
 import com.aiden.runningloggui.utility.AppConstants;
 import com.aiden.runningloggui.utility.PreferencesManager;
 import com.aiden.runningloggui.utility.SaveFileManager;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -35,39 +36,39 @@ public class ConfigStorageSettingsController implements Initializable {
     @FXML
     Label sqlConnStatusLabel;
     @FXML
+    Button configSqlSettingsBtn;
+    @FXML
     Button goBackBtn;
+
+    private ToggleGroup toggleGroup;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         // Add the two radio buttons to one ToggleGroup
-        ToggleGroup toggleGroup = new ToggleGroup();
+        toggleGroup = new ToggleGroup();
         radioSQL.setToggleGroup(toggleGroup);
         radioLocalSaveFile.setToggleGroup(toggleGroup);
 
+        // Check preferences for which toggle button should be selected
+        String selectedToggle = PreferencesManager.get(AppConstants.SELECTED_TOGGLE_BUTTON_STORAGE_SETTINGS);
+        if(selectedToggle != null) {
+            if(selectedToggle.equals(radioLocalSaveFile.getText())) radioLocalSaveFile.setSelected(true);
+            else if(selectedToggle.equals(radioSQL.getText())) radioSQL.setSelected(true);
+            // Invoke toggleGroupListener
+            toggleGroupListener();
+        }
+        // Otherwise if selectedToggle is null, LSF will be selected by default
+
         // Add listener to the ToggleGroup
-        toggleGroup.selectedToggleProperty().addListener(e -> {
-            RadioButton selectedButton = (RadioButton) toggleGroup.getSelectedToggle();
-            if (selectedButton.getText().equals("Local Save File")) {
-                // If Local Save File option is selected, prevent editing in the SQL section
-                sqlServerAddrField.setEditable(false);
-                sqlServerUserField.setEditable(false);
-                sqlServerPassField.setEditable(false);
-                sqlServerConnectBtn.setDisable(true);
-            }
-            else if (selectedButton.getText().equals("SQL Server")) {
-                // If SQL option is selected, allow editing in the SQL section
-                sqlServerAddrField.setEditable(true);
-                sqlServerUserField.setEditable(true);
-                sqlServerPassField.setEditable(true);
-                sqlServerConnectBtn.setDisable(false);
-            }
-        });
+        toggleGroup.selectedToggleProperty().addListener(e -> toggleGroupListener());
 
         // Add action to Change LSF Button
         changeLSFBtn.setOnAction(e -> {
             SaveFileManager.promptUserForFile();
-
+            updateSaveFileLocationLabel();
         });
+
 
         // Logic for Save File Location label
         // Upon initialization, check preferences for save file location
@@ -92,7 +93,9 @@ public class ConfigStorageSettingsController implements Initializable {
             String serverAddress = sqlServerAddrField.getText();
             String serverUser = sqlServerUserField.getText();
             String serverPass = sqlServerPassField.getText();
-            if(serverAddress.isBlank() || serverUser.isBlank() || serverPass.isBlank()) {
+            System.out.println("DEBUG printing serverAddress == null: " + (serverAddress == null));
+            System.out.println("DEBUG sqlAddrField: " + sqlServerAddrField.getText());
+            if(serverAddress == null || serverUser == null || serverPass == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Incomplete fields");
                 alert.setContentText("All SQL fields must be filled in.");
@@ -108,5 +111,35 @@ public class ConfigStorageSettingsController implements Initializable {
 
         // Add action to go back button
 
+    }
+    private void updateSaveFileLocationLabel() {
+        // Get location of save file from preferences
+        String location = PreferencesManager.get(AppConstants.SAVE_FILE_LOCATION_KEY);
+        if(location != null) {
+            File file = new File(location);
+            saveFileLocationLabel.setText(file.getName());
+        }
+    }
+
+    private void toggleGroupListener() {
+        RadioButton selectedButton = (RadioButton) toggleGroup.getSelectedToggle();
+        // Update preferences
+        PreferencesManager.put(AppConstants.SELECTED_TOGGLE_BUTTON_STORAGE_SETTINGS, selectedButton.getText());
+        if (selectedButton.getText().equals(radioLocalSaveFile.getText())) {
+            // If Local Save File option is selected, prevent editing in the SQL section
+            sqlServerAddrField.setEditable(false);
+            sqlServerUserField.setEditable(false);
+            sqlServerPassField.setEditable(false);
+            sqlServerConnectBtn.setDisable(true);
+            configSqlSettingsBtn.setDisable(true);
+        }
+        else if (selectedButton.getText().equals(radioSQL.getText())) {
+            // If SQL option is selected, allow editing in the SQL section
+            sqlServerAddrField.setEditable(true);
+            sqlServerUserField.setEditable(true);
+            sqlServerPassField.setEditable(true);
+            sqlServerConnectBtn.setDisable(false);
+            configSqlSettingsBtn.setDisable(false);
+        }
     }
 }
