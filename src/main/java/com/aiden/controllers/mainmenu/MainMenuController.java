@@ -75,7 +75,6 @@ public class MainMenuController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("DEBUG initialized");
         runningEntryList = new ArrayList<>();
         toggleGroup = new ToggleGroup();
         radioName.setToggleGroup(toggleGroup);
@@ -215,8 +214,6 @@ public class MainMenuController implements Initializable {
         String runnerDistanceStr = runnerDistanceField.getText();
         String runnerTimeStr = runnerTimeField.getText();
         String regex = "[^\\d.]"; // NOT 0-9 and NOT decimal points
-        System.out.println("DEBUG check if str matches regex:");
-        System.out.println("runnerDistStr: " + runnerDistanceStr.matches(regex));
         if(runnerDistanceStr.matches(regex) || runnerTimeStr.matches(regex)) {
 
             return false;
@@ -371,15 +368,12 @@ public class MainMenuController implements Initializable {
         toggleGroupListener(); // Invoke listener because it's only invoked when the user clicks a radio button.
     }
     public void refreshStorageLabel() {
-        System.out.println("DEBUG calling refresh");
         // Get selected storage option
         String selectedOption = PreferencesManager.get(AppConstants.SELECTED_TOGGLE_BUTTON_STORAGE_SETTINGS);
-        System.out.println("DEBUG selectedOption: " + selectedOption);
         if(selectedOption != null) {
             if(selectedOption.equals("Local Save File")) {
 
                 File file = new File(PreferencesManager.get(AppConstants.SAVE_FILE_LOCATION_KEY));
-                System.out.println("DEBUG strg label is null: " + (storageOptionLabel == null));
                 storageOptionLabel.setText("Using save file " + file.getName());
                 storageOptionLabel.setTextFill(Color.GREEN);
                 saveRunsBtn.setDisable(false);
@@ -413,6 +407,7 @@ public class MainMenuController implements Initializable {
 
             }
         } else if(selectedOption == null) {
+            /*
             if(selectedOption.equals("Local Save File")) {
 
                 File file = new File(PreferencesManager.get(AppConstants.SAVE_FILE_LOCATION_KEY));
@@ -448,6 +443,8 @@ public class MainMenuController implements Initializable {
 
 
             }
+            */
+
         }
 
         saveRunsBtn.setOnAction(e -> {

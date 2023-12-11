@@ -89,7 +89,6 @@ public class SaveFileManager {
             List<RunningEntry> result = new ArrayList<>();
             try(BufferedReader br = new BufferedReader(new FileReader(saveFile.getAbsolutePath()))) {
                 String line;
-                System.out.println("DEBUG line");
                 while((line = br.readLine()) != null) {
                     String[] values = line.split(",");
                     result.add(new RunningEntry(values));

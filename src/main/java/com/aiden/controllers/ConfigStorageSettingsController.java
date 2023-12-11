@@ -52,11 +52,12 @@ public class ConfigStorageSettingsController implements Initializable {
         if(selectedToggle != null) {
             if(selectedToggle.equals(radioLocalSaveFile.getText())) radioLocalSaveFile.setSelected(true);
             else if(selectedToggle.equals(radioSQL.getText())) radioSQL.setSelected(true);
-            // Invoke toggleGroupListener
-            toggleGroupListener();
+
         }
         // Otherwise if selectedToggle is null, LSF will be selected by default
-
+        radioLocalSaveFile.setSelected(true);
+        // Invoke toggleGroupListener
+        toggleGroupListener();
         // Add listener to the ToggleGroup
         toggleGroup.selectedToggleProperty().addListener(e -> toggleGroupListener());
 
