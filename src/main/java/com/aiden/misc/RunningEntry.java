@@ -1,10 +1,13 @@
-package com.aiden.runningloggui;
+package com.aiden.misc;
+
+import java.text.DecimalFormat;
 
 public class RunningEntry {
     private String runnerName;
     private double distance;
     private double time;
     private double pace;
+    private static DecimalFormat df = new DecimalFormat("#.##");
 
     public RunningEntry(String name, double dist, double time) {
         this.runnerName = name;
@@ -20,6 +23,7 @@ public class RunningEntry {
     }
     public String getRunnerName() { return this.runnerName; }
     public double getDistance() { return this.distance; }
+    public String getDistanceRounded() { return df.format(this.getDistance()); }
     public double getTime() { return this.time; }
     public double getPace() { return this.pace; }
     public void setRunnerName(String name) { this.runnerName = name; }

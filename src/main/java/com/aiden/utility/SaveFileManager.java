@@ -1,6 +1,6 @@
-package com.aiden.runningloggui.utility;
+package com.aiden.utility;
 
-import com.aiden.runningloggui.RunningEntry;
+import com.aiden.misc.RunningEntry;
 import javafx.scene.control.Alert;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -9,7 +9,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.prefs.Preferences;
 
 public class SaveFileManager {
 
@@ -67,7 +66,7 @@ public class SaveFileManager {
         return CompletableFuture.runAsync(() -> {
             try(BufferedWriter bw = new BufferedWriter(new FileWriter(saveFile.getAbsolutePath()))) {
                 for(RunningEntry entry : runningEntries) {
-                    bw.write(String.join(",", entry.getAsStringArray()));
+                    bw.write(String.join(",", entry.getAsStringArray()) + "\n");
                 }
             } catch(IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -76,7 +75,7 @@ public class SaveFileManager {
                 alert.showAndWait();
 
             }
-
+        fileOperationOngoing = false;
         });
     }
     public static boolean deleteRunnerByEntry(RunningEntry runningEntry) {
@@ -84,22 +83,30 @@ public class SaveFileManager {
         return false;
     }
 
-    public static List<RunningEntry> readSaveFileAsync() {
-        List<RunningEntry> result = new ArrayList<>();
-        try(BufferedReader br = new BufferedReader(new FileReader(saveFile.getAbsolutePath()))) {
-            String line;
-            while((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-                result.add(new RunningEntry(values));
+    public static CompletableFuture<List<RunningEntry>> readSaveFileAsync() {
+        return CompletableFuture.supplyAsync(() -> {
+            fileOperationOngoing = true;
+            List<RunningEntry> result = new ArrayList<>();
+            try(BufferedReader br = new BufferedReader(new FileReader(saveFile.getAbsolutePath()))) {
+                String line;
+                System.out.println("DEBUG line");
+                while((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    result.add(new RunningEntry(values));
+                }
+                fileOperationOngoing = false;
+                return result;
+            } catch(IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Save file error");
+                alert.setContentText("Unable to read save file located at " + saveFile.getAbsolutePath());
+                alert.showAndWait();
+                fileOperationOngoing = false;
+                return null;
             }
-            return result;
-        } catch(IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Save file error");
-            alert.setContentText("Unable to read save file located at " + saveFile.getAbsolutePath());
-            alert.showAndWait();
-            return null;
-        }
+
+        });
+
     }
 
 

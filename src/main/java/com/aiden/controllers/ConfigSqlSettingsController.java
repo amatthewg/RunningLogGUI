@@ -1,7 +1,9 @@
-package com.aiden.runningloggui;
+package com.aiden.controllers;
 
-import com.aiden.runningloggui.utility.AppConstants;
-import com.aiden.runningloggui.utility.PreferencesManager;
+import com.aiden.utility.AppConstants;
+import com.aiden.utility.DatabaseManager;
+import com.aiden.utility.PreferencesManager;
+import com.aiden.utility.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -48,9 +50,11 @@ public class ConfigSqlSettingsController implements Initializable {
         if(selectedToggle != null) {
             if(selectedToggle.equals(radioNewDatabase.getText())) {
                 radioNewDatabase.setSelected(true);
+                showFieldsForNewDb();
             }
             else if(selectedToggle.equals(radioExistingDatabase.getText())) {
                 radioExistingDatabase.setSelected(true);
+                showFieldsForExistingDb();
             }
         }
 
@@ -82,26 +86,40 @@ public class ConfigSqlSettingsController implements Initializable {
         // Add action event to update button
         existingDatabaseUpdateBtn.setOnAction(e -> {
             String existingDbName = existingDatabaseNameField.getText();
-            if(existingDbName == null) {
+            if (existingDbName == null || existingDbName.isBlank()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Missing field");
                 alert.setContentText("You must enter a name for the database.");
                 alert.showAndWait();
                 return;
             }
-            // TODO db manager update
+
+            // Check if the table already exists
+            if (DatabaseManager.tableExists(existingDbName)) {
+                // Table exists, update preferences
+                PreferencesManager.put(AppConstants.DATABASE_TABLE_NAME, existingDbName);
+            } else {
+                // Table does not exist, show an error
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText("The specified table does not exist.");
+                alert.showAndWait();
+            }
         });
         // Add action to update button
         newDbUpdateBtn.setOnAction(e -> {
             String preferredDbName = newDbNameField.getText();
-            if(preferredDbName == null) {
+            if(preferredDbName == null || preferredDbName.isBlank()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Missing field");
                 alert.setContentText("You must enter a name for the database.");
                 alert.showAndWait();
                 return;
             }
-            // TODO db manager update
+            PreferencesManager.put(AppConstants.DATABASE_TABLE_NAME, preferredDbName);
+        });
+        // Add action to go back btn
+        goBackBtn.setOnAction(e -> {
+            SceneManager.setScene(AppConstants.CONFIG_STORAGE_SETTINGS_SCENE);
         });
 
     }
@@ -124,6 +142,13 @@ public class ConfigSqlSettingsController implements Initializable {
         existingDatabaseNameLabel.setVisible(true);
         existingDatabaseNameField.setVisible(true);
         existingDatabaseUpdateBtn.setVisible(true);
+    }
+    public String getExistingDbName() {
+        return (existingDatabaseNameField == null) ? null : existingDatabaseNameField.getText();
+    }
+
+    public String getNewDbName() {
+        return (newDbNameField == null) ? null : newDbNameField.getText();
     }
 }
 

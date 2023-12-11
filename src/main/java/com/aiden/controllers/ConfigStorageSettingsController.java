@@ -1,9 +1,7 @@
-package com.aiden.runningloggui;
+package com.aiden.controllers;
 
-import com.aiden.runningloggui.utility.AppConstants;
-import com.aiden.runningloggui.utility.PreferencesManager;
-import com.aiden.runningloggui.utility.SaveFileManager;
-import javafx.beans.value.ChangeListener;
+import com.aiden.controllers.mainmenu.MainMenuController;
+import com.aiden.utility.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -11,7 +9,6 @@ import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.net.URL;
-import java.security.spec.AlgorithmParameterSpec;
 import java.util.ResourceBundle;
 
 public class ConfigStorageSettingsController implements Initializable {
@@ -93,24 +90,47 @@ public class ConfigStorageSettingsController implements Initializable {
             String serverAddress = sqlServerAddrField.getText();
             String serverUser = sqlServerUserField.getText();
             String serverPass = sqlServerPassField.getText();
-            System.out.println("DEBUG printing serverAddress == null: " + (serverAddress == null));
-            System.out.println("DEBUG sqlAddrField: " + sqlServerAddrField.getText());
-            if(serverAddress == null || serverUser == null || serverPass == null) {
+
+            if(serverAddress.isBlank() || serverUser.isBlank() || serverPass.isBlank()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Incomplete fields");
                 alert.setContentText("All SQL fields must be filled in.");
                 alert.showAndWait();
                 return;
             }
-            // Update preferences with server details
-            PreferencesManager.put(AppConstants.SQL_SERVER_ADDR_KEY, serverAddress);
-            PreferencesManager.put(AppConstants.SQL_SERVER_USER_KEY, serverUser);
-            PreferencesManager.put(AppConstants.SQL_SERVER_PASS_KEY, serverPass);
-            // TODO db manager establish connection
+            boolean isConnected = DatabaseManager.databaseIsConnected(serverAddress, serverUser, serverPass);
+            if (isConnected) {
+                // If connection is successful, update preferences with server details
+                PreferencesManager.put(AppConstants.SQL_SERVER_ADDR_KEY, serverAddress);
+                PreferencesManager.put(AppConstants.SQL_SERVER_USER_KEY, serverUser);
+                PreferencesManager.put(AppConstants.SQL_SERVER_PASS_KEY, serverPass);
+
+                // Notify the user about the successful connection
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Connection Successful");
+                alert.setContentText("Connection to the SQL server is successful.");
+                alert.showAndWait();
+            } else {
+                // Notify the user about the unsuccessful connection
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Connection Failed");
+                alert.setContentText("Unable to connect to the SQL server. Please check your credentials.");
+                alert.showAndWait();
+            }
+        });
+        sqlConnStatusLabel.setText("");
+        // Add action to Config SQL settings btn
+        configSqlSettingsBtn.setOnAction(e -> {
+            SceneManager.setScene(AppConstants.CONFIG_SQL_SETTINGS_SCENE);
         });
 
         // Add action to go back button
 
+        goBackBtn.setOnAction(e -> {
+            MainMenuController controller = ControllerManager.getMainMenuControllerInstance();
+            controller.refreshStorageLabel();
+            SceneManager.setScene(AppConstants.MAIN_MENU_SCENE);
+        });
     }
     private void updateSaveFileLocationLabel() {
         // Get location of save file from preferences
@@ -119,6 +139,7 @@ public class ConfigStorageSettingsController implements Initializable {
             File file = new File(location);
             saveFileLocationLabel.setText(file.getName());
         }
+
     }
 
     private void toggleGroupListener() {
@@ -142,4 +163,5 @@ public class ConfigStorageSettingsController implements Initializable {
             configSqlSettingsBtn.setDisable(false);
         }
     }
+
 }

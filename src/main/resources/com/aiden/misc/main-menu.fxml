@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.aiden.controllers.mainmenu.MainMenuController">
+   <children>
+      <ScrollPane fx:id="scrollPane" layoutX="185.0" layoutY="48.0" prefHeight="200.0" prefWidth="401.0" />
+      <Label layoutX="14.0" layoutY="14.0" style="-fx-font-weight: bold;" text="Running Log">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="14.0" layoutY="59.0" text="Runner's name" />
+      <TextField fx:id="runnerNameField" layoutX="14.0" layoutY="76.0" />
+      <Label layoutX="14.0" layoutY="106.0" text="Runner's distance (miles)" />
+      <TextField fx:id="runnerDistanceField" layoutX="14.0" layoutY="123.0" />
+      <Label layoutX="14.0" layoutY="157.0" text="Time (minutes)" />
+      <TextField fx:id="runnerTimeField" layoutX="14.0" layoutY="174.0" />
+      <Button fx:id="addRunBtn" layoutX="14.0" layoutY="214.0" mnemonicParsing="false" text="Add run to list" />
+      <Label layoutX="14.0" layoutY="369.0" style="-fx-font-style: italic;" text="Aiden Grimsey 2023" />
+      <Label layoutX="14.0" layoutY="250.0" text="Sort runs by:" underline="true" />
+      <RadioButton fx:id="radioName" layoutX="9.0" layoutY="274.0" mnemonicParsing="false" text="Name" />
+      <RadioButton fx:id="radioDistance" layoutX="9.0" layoutY="292.0" mnemonicParsing="false" text="Distance" />
+      <RadioButton fx:id="radioTime" layoutX="10.0" layoutY="310.0" mnemonicParsing="false" text="Time" />
+      <RadioButton fx:id="radioPace" layoutX="10.0" layoutY="328.0" mnemonicParsing="false" text="Pace" />
+      <Label fx:id="storageOptionLabel" layoutX="317.0" layoutY="284.0" style="-fx-font-weight: bold;" text="No storage option selected" textFill="RED" />
+      <Button fx:id="saveRunsBtn" layoutX="360.0" layoutY="254.0" mnemonicParsing="false" text="Save runs" />
+      <Button fx:id="configStorageBtn" layoutX="431.0" layoutY="365.0" mnemonicParsing="false" text="Configure storage options" />
+      <Button fx:id="reverseBtn" layoutX="185.0" layoutY="254.0" mnemonicParsing="false" text="Reverse" />
+      <Label fx:id="saveConfirmationLabel" layoutX="314.0" layoutY="310.0" text="SAVE_CONFIRMATION_LABEL" />
+   </children>
+</Pane>

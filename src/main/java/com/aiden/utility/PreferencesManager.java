@@ -1,4 +1,4 @@
-package com.aiden.runningloggui.utility;
+package com.aiden.utility;
 
 import javafx.scene.control.Alert;
 

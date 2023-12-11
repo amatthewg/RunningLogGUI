@@ -1,6 +1,6 @@
-package com.aiden.runningloggui.utility;
+package com.aiden.utility;
 
-import com.aiden.runningloggui.RunningLogGUI;
+import com.aiden.misc.RunningLogGUI;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,6 +34,7 @@ public class SceneManager {
             alert.setTitle("Failed to load resource");
             alert.setContentText("Failed to load scene '" + sceneName + "' located at " + fxmlPath);
             alert.showAndWait();
+            e.printStackTrace();
             throw new RuntimeException("Resource not located: " + fxmlPath);
         }
     }
@@ -42,6 +43,9 @@ public class SceneManager {
         Scene scene = scenes.get(name);
         if(scene != null) {
             primaryStage.setScene(scene);
+            // Update preferences with this scene
+            PreferencesManager.put(AppConstants.LAST_SCENE_OPENED_KEY, name);
+
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Failed to find resource");

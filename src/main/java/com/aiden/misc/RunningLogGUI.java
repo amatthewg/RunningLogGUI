@@ -1,9 +1,9 @@
-package com.aiden.runningloggui;
+package com.aiden.misc;
 
-import com.aiden.runningloggui.utility.AppConstants;
-import com.aiden.runningloggui.utility.PreferencesManager;
-import com.aiden.runningloggui.utility.SaveFileManager;
-import com.aiden.runningloggui.utility.SceneManager;
+import com.aiden.utility.AppConstants;
+import com.aiden.utility.PreferencesManager;
+import com.aiden.utility.SaveFileManager;
+import com.aiden.utility.SceneManager;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -25,13 +25,15 @@ public class RunningLogGUI extends Application {
         // Set primary stage of SceneManager
         SceneManager.setPrimaryStage(primaryStage);
         // Load scenes using SceneManager
+        SceneManager.loadScene("main-menu.fxml", AppConstants.MAIN_MENU_SCENE);
         SceneManager.loadScene("configure-storage-settings.fxml", AppConstants.CONFIG_STORAGE_SETTINGS_SCENE);
         SceneManager.loadScene("configure-sql-settings.fxml", AppConstants.CONFIG_SQL_SETTINGS_SCENE);
+
         // Get scene last opened by user
         String lastOpenedScene = PreferencesManager.get(AppConstants.LAST_SCENE_OPENED_KEY);
         if(lastOpenedScene == null) {
             // Application has not been launched before, no last opened scene
-            SceneManager.setScene(AppConstants.CONFIG_STORAGE_SETTINGS_SCENE);
+            SceneManager.setScene(AppConstants.MAIN_MENU_SCENE);
         } else {
             SceneManager.setScene(lastOpenedScene);
         }
